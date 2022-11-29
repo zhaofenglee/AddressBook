@@ -2,6 +2,22 @@
   "culture": "zh-Hans",
   "texts": {
     "MyAccount": "我的账户",
-    "SamplePageMessage": "AddressBook模块的示例页面"
+    "SamplePageMessage": "AddressBook模块的示例页面",
+    "UserId": "用户Id",
+    "UserName": "姓名",
+    "EmailAddress": "邮箱地址",
+    "Description": "描述",
+    "EmailAddressBooks": "邮箱地址簿",
+    "NewEmailAddressBook": "新建邮箱地址簿",
+    "Actions": "操作",
+    "SuccessfullyDeleted": "成功删除",
+    "DeleteConfirmationMessage": "你确定要删除记录吗?",
+    "Search": "查询",
+    "Pick": "过滤",
+    "SeeAdvancedFilters": "高级过滤",
+    "ItemAlreadyAdded": "This item is already added.",
+    "ExportToExcel": "导出Excel",
+    "Menu:EmailAddressBooks": "邮箱地址簿",
+    "Menu:AddressBook": "地址簿"
   }
 }
