@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using JS.Abp.AddressBook.EmailAddressBooks;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
@@ -14,9 +15,10 @@ public class AddressBookEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<AddressBookDbContext>(options =>
         {
-                /* Add custom repositories here. Example:
-                 * options.AddRepository<Question, EfCoreQuestionRepository>();
-                 */
+            /* Add custom repositories here. Example:
+             * options.AddRepository<Question, EfCoreQuestionRepository>();
+             */
+            options.AddRepository<EmailAddressBook, EfCoreEmailAddressBookRepository>();
         });
     }
 }

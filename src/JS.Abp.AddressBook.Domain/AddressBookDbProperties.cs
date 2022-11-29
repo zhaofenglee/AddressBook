@@ -2,7 +2,7 @@
 
 public static class AddressBookDbProperties
 {
-    public static string DbTablePrefix { get; set; } = "AddressBook";
+    public static string DbTablePrefix { get; set; } = "Ab";
 
     public static string DbSchema { get; set; } = null;
 

@@ -2,6 +2,7 @@
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
+using Volo.Abp.Caching;
 
 namespace JS.Abp.AddressBook;
 
@@ -9,7 +10,8 @@ namespace JS.Abp.AddressBook;
     typeof(AddressBookDomainModule),
     typeof(AddressBookApplicationContractsModule),
     typeof(AbpDddApplicationModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpAutoMapperModule),
+    typeof(AbpCachingModule)
     )]
 public class AddressBookApplicationModule : AbpModule
 {

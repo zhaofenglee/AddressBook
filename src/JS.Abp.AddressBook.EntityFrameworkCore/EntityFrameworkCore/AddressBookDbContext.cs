@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using JS.Abp.AddressBook.EmailAddressBooks;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ public class AddressBookDbContext : AbpDbContext<AddressBookDbContext>, IAddress
     /* Add DbSet for each Aggregate Root here. Example:
      * public DbSet<Question> Questions { get; set; }
      */
-
+    public DbSet<EmailAddressBook> EmailAddressBooks { get; set; }
     public AddressBookDbContext(DbContextOptions<AddressBookDbContext> options)
         : base(options)
     {

@@ -9,6 +9,11 @@ public class AddressBookPermissionDefinitionProvider : PermissionDefinitionProvi
     public override void Define(IPermissionDefinitionContext context)
     {
         var myGroup = context.AddGroup(AddressBookPermissions.GroupName, L("Permission:AddressBook"));
+
+        var emailAddressBookPermission = myGroup.AddPermission(AddressBookPermissions.EmailAddressBooks.Default, L("Permission:EmailAddressBooks"));
+        emailAddressBookPermission.AddChild(AddressBookPermissions.EmailAddressBooks.Create, L("Permission:Create"));
+        emailAddressBookPermission.AddChild(AddressBookPermissions.EmailAddressBooks.Edit, L("Permission:Edit"));
+        emailAddressBookPermission.AddChild(AddressBookPermissions.EmailAddressBooks.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

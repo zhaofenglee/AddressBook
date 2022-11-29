@@ -1,0 +1,259 @@
+@page "/email-address-books"
+@attribute [Authorize(AddressBookPermissions.EmailAddressBooks.Default)]
+@using JS.Abp.AddressBook.EmailAddressBooks
+@using JS.Abp.AddressBook.Localization
+@using JS.Abp.AddressBook.Shared
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Components.Web
+@using Blazorise
+@using Blazorise.Components
+@using Blazorise.DataGrid
+@using Volo.Abp.BlazoriseUI
+@using Volo.Abp.BlazoriseUI.Components
+@using Volo.Abp.ObjectMapping
+@using Volo.Abp.AspNetCore.Components.Messages
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
+@using JS.Abp.AddressBook.Permissions
+@using Microsoft.AspNetCore.Components
+@using Volo.Abp.AspNetCore.Components.Web
+@using Volo.Abp.Http.Client
+@inherits AddressBookComponentBase
+@inject IEmailAddressBooksAppService EmailAddressBooksAppService
+@inject IUiMessageService UiMessageService
+@*@inject IRemoteServiceConfigurationProvider RemoteServiceConfigurationProvider*@
+@inject NavigationManager NavigationManager
+
+@* ************************* PAGE HEADER ************************* *@
+<PageHeader Title="@L["EmailAddressBooks"]" BreadcrumbItems="BreadcrumbItems" Toolbar="Toolbar">
+
+</PageHeader>
+
+@* ************************* SEARCH ************************* *@
+<Card>
+    <CardBody>
+        <Form id="EmailAddressBookSearchForm" class="mb-3">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@Filter.FilterText"
+                              Autofocus="true"
+                              Placeholder="@L["Search"]">
+                    </TextEdit>
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <SubmitButton Form="EmailAddressBookSearchForm" Clicked="GetEmailAddressBooksAsync">
+                        <Icon Name="IconName.Search" Class="me-1"></Icon>@L["Search"]
+                    </SubmitButton>
+                </Addon>
+            </Addons>
+        </Form>
+    </CardBody>
+</Card>
+
+@* ************************* DATA GRID ************************* *@
+<Card>
+    <CardBody>
+        <DataGrid TItem="EmailAddressBookDto"
+                  Data="EmailAddressBookList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  Responsive="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridEntityActionsColumn TItem="EmailAddressBookDto" @ref="@EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="EmailAddressBookDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="EmailAddressBookDto"
+                                          Visible="@CanEditEmailAddressBook"
+                                          Clicked="async () => await OpenEditEmailAddressBookModalAsync(context)"
+                                          Text="@L["Edit"]"></EntityAction>
+                            <EntityAction TItem="EmailAddressBookDto"
+                                          Visible="@CanDeleteEmailAddressBook"
+                                          Clicked="() => DeleteEmailAddressBookAsync(context)"
+                                          ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
+                                          Text="@L["Delete"]"></EntityAction>
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+               
+              <DataGridColumn TItem="EmailAddressBookDto"
+                      Field="UserId"
+                      Caption="@L["UserId"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="EmailAddressBookDto"
+                      Field="UserName"
+                      Caption="@L["UserName"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="EmailAddressBookDto"
+                      Field="EmailAddress"
+                      Caption="@L["EmailAddress"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="EmailAddressBookDto"
+                      Field="Description"
+                      Caption="@L["Description"]">
+              </DataGridColumn>
+
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+@* ************************* CREATE MODAL ************************* *@
+<Modal @ref="CreateEmailAddressBookModal" Closing="@CreateEmailAddressBookModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+        <Form id="CreateEmailAddressBookForm">
+            <ModalHeader>
+                <ModalTitle>@L["NewEmailAddressBook"]</ModalTitle>
+                <CloseButton Clicked="CloseCreateEmailAddressBookModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@NewEmailAddressBookValidations"
+                            Mode="ValidationMode.Auto"
+                            Model="@NewEmailAddressBook"
+                            ValidateOnLoad="false">
+                     
+                    
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserId"] *</FieldLabel>
+                            <TextEdit @bind-Text="@NewEmailAddressBook.UserId" MaxLength="EmailAddressBookConsts.UserIdMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserName"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEmailAddressBook.UserName" MaxLength="EmailAddressBookConsts.UserNameMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["EmailAddress"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEmailAddressBook.EmailAddress" MaxLength="EmailAddressBookConsts.EmailAddressMaxLength" Role="TextRole.Email">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Description"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEmailAddressBook.Description" MaxLength="EmailAddressBookConsts.DescriptionMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    
+                    
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateEmailAddressBookModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="CreateEmailAddressBookForm" Clicked="CreateEmailAddressBookAsync" />
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+@* ************************* EDIT MODAL ************************* *@
+<Modal @ref="EditEmailAddressBookModal" Closing="@EditEmailAddressBookModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+        <Form id="EditEmailAddressBookForm">
+            <ModalHeader>
+                <ModalTitle>@L["Update"]</ModalTitle>
+                <CloseButton Clicked="CloseEditEmailAddressBookModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditingEmailAddressBookValidations"
+                            Mode="ValidationMode.Auto"
+                            Model="@EditingEmailAddressBook"
+                            ValidateOnLoad="false">
+                     
+                    
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserId"] *</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEmailAddressBook.UserId" MaxLength="EmailAddressBookConsts.UserIdMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserName"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEmailAddressBook.UserName" MaxLength="EmailAddressBookConsts.UserNameMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["EmailAddress"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEmailAddressBook.EmailAddress" MaxLength="EmailAddressBookConsts.EmailAddressMaxLength" Role="TextRole.Email">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Description"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEmailAddressBook.Description" MaxLength="EmailAddressBookConsts.DescriptionMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    
+                    
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditEmailAddressBookModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="CreateEmailAddressBookForm" Clicked="UpdateEmailAddressBookAsync" />
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
