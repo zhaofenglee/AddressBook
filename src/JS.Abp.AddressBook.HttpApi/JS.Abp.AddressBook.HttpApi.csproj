@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>JS.Abp.AddressBook</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="6.0.1" />
+    <ProjectReference Include="..\JS.Abp.AddressBook.Application.Contracts\JS.Abp.AddressBook.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

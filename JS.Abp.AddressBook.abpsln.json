@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "JS.Abp.AddressBook": {
+      "path": "JS.Abp.AddressBook.abpmdl.json"
+    }
+  }
+}

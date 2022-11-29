@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.Theming" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\JS.Abp.AddressBook.Blazor\JS.Abp.AddressBook.Blazor.csproj" />
+        <ProjectReference Include="..\JS.Abp.AddressBook.HttpApi.Client\JS.Abp.AddressBook.HttpApi.Client.csproj" />
+    </ItemGroup>
+
+</Project>

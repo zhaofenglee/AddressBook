@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "paths": {
+      "@j-s.Abp/address-book": [
+        "projects/address-book/src/public-api.ts"
+      ],
+      "@j-s.Abp/address-book/config": [
+        "projects/address-book/config/src/public-api.ts"
+      ],
+      "@proxy": ["projects/address-book/src/lib/proxy/index.ts"],
+      "@proxy/*": ["projects/address-book/src/lib/proxy/*"]
+    }
+  }
+}

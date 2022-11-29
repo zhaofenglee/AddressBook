@@ -1,0 +1,111 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "JS.Abp.AddressBook.Domain.Shared": {
+      "path": "src/JS.Abp.AddressBook.Domain.Shared/JS.Abp.AddressBook.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.Domain": {
+      "path": "src/JS.Abp.AddressBook.Domain/JS.Abp.AddressBook.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.Application.Contracts": {
+      "path": "src/JS.Abp.AddressBook.Application.Contracts/JS.Abp.AddressBook.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.Application": {
+      "path": "src/JS.Abp.AddressBook.Application/JS.Abp.AddressBook.Application.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.EntityFrameworkCore": {
+      "path": "src/JS.Abp.AddressBook.EntityFrameworkCore/JS.Abp.AddressBook.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.MongoDB": {
+      "path": "src/JS.Abp.AddressBook.MongoDB/JS.Abp.AddressBook.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.HttpApi": {
+      "path": "src/JS.Abp.AddressBook.HttpApi/JS.Abp.AddressBook.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.HttpApi.Client": {
+      "path": "src/JS.Abp.AddressBook.HttpApi.Client/JS.Abp.AddressBook.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.TestBase": {
+      "path": "test/JS.Abp.AddressBook.TestBase/JS.Abp.AddressBook.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "JS.Abp.AddressBook.EntityFrameworkCore.Tests": {
+      "path": "test/JS.Abp.AddressBook.EntityFrameworkCore.Tests/JS.Abp.AddressBook.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "JS.Abp.AddressBook.MongoDB.Tests": {
+      "path": "test/JS.Abp.AddressBook.MongoDB.Tests/JS.Abp.AddressBook.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "JS.Abp.AddressBook.Domain.Tests": {
+      "path": "test/JS.Abp.AddressBook.Domain.Tests/JS.Abp.AddressBook.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "JS.Abp.AddressBook.Application.Tests": {
+      "path": "test/JS.Abp.AddressBook.Application.Tests/JS.Abp.AddressBook.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "JS.Abp.AddressBook.HttpApi.Host": {
+      "path": "host/JS.Abp.AddressBook.HttpApi.Host/JS.Abp.AddressBook.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "JS.Abp.AddressBook.Web": {
+      "path": "src/JS.Abp.AddressBook.Web/JS.Abp.AddressBook.Web.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/JS.Abp.AddressBook.HttpApi.Client.ConsoleTestApp/JS.Abp.AddressBook.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "JS.Abp.AddressBook.Web.Host": {
+      "path": "host/JS.Abp.AddressBook.Web.Host/JS.Abp.AddressBook.Web.Host.abppkg.json",
+      "folder": "host"
+    },
+    "JS.Abp.AddressBook.AuthServer": {
+      "path": "host/JS.Abp.AddressBook.AuthServer/JS.Abp.AddressBook.AuthServer.abppkg.json",
+      "folder": "host"
+    },
+    "JS.Abp.AddressBook.Host.Shared": {
+      "path": "host/JS.Abp.AddressBook.Host.Shared/JS.Abp.AddressBook.Host.Shared.abppkg.json",
+      "folder": "host"
+    },
+    "JS.Abp.AddressBook.Web.Unified": {
+      "path": "host/JS.Abp.AddressBook.Web.Unified/JS.Abp.AddressBook.Web.Unified.abppkg.json",
+      "folder": "host"
+    },
+    "JS.Abp.AddressBook.Blazor": {
+      "path": "src/JS.Abp.AddressBook.Blazor/JS.Abp.AddressBook.Blazor.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.Blazor.Host": {
+      "path": "host/JS.Abp.AddressBook.Blazor.Host/JS.Abp.AddressBook.Blazor.Host.abppkg.json",
+      "folder": "host"
+    },
+    "JS.Abp.AddressBook.Blazor.Server": {
+      "path": "src/JS.Abp.AddressBook.Blazor.Server/JS.Abp.AddressBook.Blazor.Server.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.Blazor.WebAssembly": {
+      "path": "src/JS.Abp.AddressBook.Blazor.WebAssembly/JS.Abp.AddressBook.Blazor.WebAssembly.abppkg.json",
+      "folder": "src"
+    },
+    "JS.Abp.AddressBook.Blazor.Server.Host": {
+      "path": "host/JS.Abp.AddressBook.Blazor.Server.Host/JS.Abp.AddressBook.Blazor.Server.Host.abppkg.json",
+      "folder": "host"
+    }
+  }
+}
