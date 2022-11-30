@@ -20,7 +20,7 @@ using JS.Abp.AddressBook.Shared;
 
 namespace JS.Abp.AddressBook.EmailAddressBooks
 {
-
+    [RemoteService(IsEnabled = false)]
     [Authorize(AddressBookPermissions.EmailAddressBooks.Default)]
     public class EmailAddressBooksAppService : ApplicationService, IEmailAddressBooksAppService
     {

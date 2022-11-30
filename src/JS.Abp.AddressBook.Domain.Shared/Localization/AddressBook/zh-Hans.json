@@ -18,6 +18,11 @@
     "ItemAlreadyAdded": "This item is already added.",
     "ExportToExcel": "导出Excel",
     "Menu:EmailAddressBooks": "邮箱地址簿",
-    "Menu:AddressBook": "地址簿"
+    "Menu:AddressBook": "地址簿",
+    "Permission:EmailAddressBooks": "邮箱地址簿",
+    "Permission:AddressBook": "地址簿",
+    "Permission:Create": "创建",
+    "Permission:Edit": "编辑",
+    "Permission:Delete": "删除"
   }
 }

@@ -2,9 +2,9 @@
 
 public class AddressBookMenus
 {
-    public const string Prefix = "AddressBook";
+    public const string GroupName = "AddressBook";
 
     //Add your menu items here...
     //public const string Home = Prefix + ".MyNewMenuItem";
-    public const string EmailAddressBooks = Prefix + ".EmailAddressBooks";
+    public const string EmailAddressBooks = GroupName + ".EmailAddressBooks";
 }

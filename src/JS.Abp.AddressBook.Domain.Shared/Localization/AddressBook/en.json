@@ -18,6 +18,11 @@
     "ItemAlreadyAdded": "This item is already added.",
     "ExportToExcel": "Export to Excel",
     "Menu:EmailAddressBooks": "Email Address Books",
-    "Menu:AddressBook": "Address Book"
+    "Menu:AddressBook": "Address Book",
+    "Permission:EmailAddressBooks": "EmailAddressBooks",
+    "Permission:AddressBook": "AddressBook",
+    "Permission:Create": "Create",
+    "Permission:Edit": "Edit",
+    "Permission:Delete": "Delete"
   }
 }

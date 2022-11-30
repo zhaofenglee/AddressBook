@@ -19,7 +19,7 @@ public class AddressBookMenuContributor : IMenuContributor
     {
         var l = context.GetLocalizer<AddressBookResource>();
         //Add main menu items.
-        context.Menu.AddItem(new ApplicationMenuItem(AddressBookMenus.Prefix, displayName: "AddressBook", "/AddressBook", icon: "fa fa-globe"));
+        //context.Menu.AddItem(new ApplicationMenuItem(AddressBookMenus.Prefix, displayName: "AddressBook", "/AddressBook", icon: "fa fa-globe"));
 
         context.Menu.AddItem(
             new ApplicationMenuItem(

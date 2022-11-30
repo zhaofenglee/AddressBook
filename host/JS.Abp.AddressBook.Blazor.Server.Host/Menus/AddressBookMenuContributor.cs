@@ -32,7 +32,7 @@ public class AddressBookMenuContributor : IMenuContributor
 
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
         administration.SetSubItemOrder(SettingManagementMenus.GroupName, 3);
-
+        
         return Task.CompletedTask;
     }
 }
