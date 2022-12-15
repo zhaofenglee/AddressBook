@@ -1,0 +1,378 @@
+@page "/contacts"
+@attribute [Authorize(AddressBookPermissions.Contacts.Default)]
+@using JS.Abp.AddressBook.Contacts
+@using JS.Abp.AddressBook.Localization
+@using JS.Abp.AddressBook.Shared
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Components.Web
+@using Blazorise
+@using Blazorise.Components
+@using Blazorise.DataGrid
+@using Volo.Abp.BlazoriseUI
+@using Volo.Abp.BlazoriseUI.Components
+@using Volo.Abp.ObjectMapping
+@using Volo.Abp.AspNetCore.Components.Messages
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
+@using JS.Abp.AddressBook.Permissions
+@using Microsoft.AspNetCore.Components
+@using Volo.Abp.AspNetCore.Components.Web
+@using Volo.Abp.Http.Client
+@inherits AddressBookComponentBase
+@inject IContactsAppService ContactsAppService
+@inject IUiMessageService UiMessageService
+@inject IRemoteServiceConfigurationProvider RemoteServiceConfigurationProvider
+@inject NavigationManager NavigationManager
+
+@* ************************* PAGE HEADER ************************* *@
+<PageHeader Title="@L["Contacts"]" BreadcrumbItems="BreadcrumbItems" Toolbar="Toolbar">
+
+</PageHeader>
+
+@* ************************* SEARCH ************************* *@
+<Card>
+    <CardBody>
+        <Form id="ContactSearchForm" class="mb-3">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <TextEdit @bind-Text="@Filter.FilterText"
+                              Autofocus="true"
+                              Placeholder="@L["Search"]">
+                    </TextEdit>
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <SubmitButton Form="ContactSearchForm" Clicked="GetContactsAsync">
+                        <Icon Name="IconName.Search" Class="me-1"></Icon>@L["Search"]
+                    </SubmitButton>
+                </Addon>
+            </Addons>
+        </Form>
+    </CardBody>
+</Card>
+
+@* ************************* DATA GRID ************************* *@
+<Card>
+    <CardBody>
+        <DataGrid TItem="ContactDto"
+                  Data="ContactList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  Responsive="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridEntityActionsColumn TItem="ContactDto" @ref="@EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="ContactDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="ContactDto"
+                                          Visible="@CanEditContact"
+                                          Clicked="async () => await OpenEditContactModalAsync(context)"
+                                          Text="@L["Edit"]"></EntityAction>
+                            <EntityAction TItem="ContactDto"
+                                          Visible="@CanDeleteContact"
+                                          Clicked="() => DeleteContactAsync(context)"
+                                          ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
+                                          Text="@L["Delete"]"></EntityAction>
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+               
+              <DataGridColumn TItem="ContactDto"
+                      Field="UserId"
+                      Caption="@L["UserId"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="UserName"
+                      Caption="@L["UserName"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="PhoneNumber"
+                      Caption="@L["PhoneNumber"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="Telephone"
+                      Caption="@L["Telephone"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="Address"
+                      Caption="@L["Address"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="Age"
+                      Caption="@L["Age"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="Birthday"
+                      Caption="@L["Birthday"]">
+                  <DisplayTemplate>
+                        @(context.Birthday.HasValue ? context.Birthday.Value.ToShortDateString() : string.Empty)
+                  </DisplayTemplate>
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ContactDto"
+                      Field="Description"
+                      Caption="@L["Description"]">
+              </DataGridColumn>
+
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+@* ************************* CREATE MODAL ************************* *@
+<Modal @ref="CreateContactModal" Closing="@CreateContactModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+        <Form id="CreateContactForm">
+            <ModalHeader>
+                <ModalTitle>@L["NewContact"]</ModalTitle>
+                <CloseButton Clicked="CloseCreateContactModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@NewContactValidations"
+                            Mode="ValidationMode.Auto"
+                            Model="@NewContact"
+                            ValidateOnLoad="false">
+                     
+                    
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserId"] *</FieldLabel>
+                            <TextEdit @bind-Text="@NewContact.UserId" MaxLength="ContactConsts.UserIdMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserName"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewContact.UserName" MaxLength="ContactConsts.UserNameMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["PhoneNumber"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewContact.PhoneNumber" MaxLength="ContactConsts.PhoneNumberMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Telephone"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewContact.Telephone" MaxLength="ContactConsts.TelephoneMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Address"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewContact.Address" MaxLength="ContactConsts.AddressMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Age"]</FieldLabel>
+                            <NumericPicker TValue="int" @bind-Value="@NewContact.Age"  Decimals="0">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                             </NumericPicker>
+                        </Field>
+                     </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Birthday"]</FieldLabel>
+                            <DateEdit TValue="DateTime?" InputMode="DateInputMode.DateTime" @bind-Date="@NewContact.Birthday">
+                               <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </DateEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Description"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewContact.Description" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    
+                    
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateContactModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="CreateContactForm" Clicked="CreateContactAsync" />
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+@* ************************* EDIT MODAL ************************* *@
+<Modal @ref="EditContactModal" Closing="@EditContactModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+        <Form id="EditContactForm">
+            <ModalHeader>
+                <ModalTitle>@L["Update"]</ModalTitle>
+                <CloseButton Clicked="CloseEditContactModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditingContactValidations"
+                            Mode="ValidationMode.Auto"
+                            Model="@EditingContact"
+                            ValidateOnLoad="false">
+                     
+                    
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserId"] *</FieldLabel>
+                            <TextEdit @bind-Text="@EditingContact.UserId" MaxLength="ContactConsts.UserIdMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["UserName"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingContact.UserName" MaxLength="ContactConsts.UserNameMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["PhoneNumber"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingContact.PhoneNumber" MaxLength="ContactConsts.PhoneNumberMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Telephone"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingContact.Telephone" MaxLength="ContactConsts.TelephoneMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Address"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingContact.Address" MaxLength="ContactConsts.AddressMaxLength">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Age"]</FieldLabel>
+                            <NumericPicker TValue="int" @bind-Value="@EditingContact.Age"  Decimals="0">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                             </NumericPicker>
+                        </Field>
+                     </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Birthday"]</FieldLabel>
+                            <DateEdit TValue="DateTime?" InputMode="DateInputMode.DateTime" @bind-Date="@EditingContact.Birthday">
+                               <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </DateEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["Description"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingContact.Description" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    
+                    
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditContactModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="CreateContactForm" Clicked="UpdateContactAsync" />
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>

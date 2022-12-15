@@ -22,13 +22,22 @@ public class AddressBookMenuContributor : IMenuContributor
         //context.Menu.AddItem(new ApplicationMenuItem(AddressBookMenus.Prefix, displayName: "AddressBook", "/AddressBook", icon: "fa fa-globe"));
 
         context.Menu.AddItem(
+           new ApplicationMenuItem(AddressBookMenus.GroupName, l["Menu:AddressBooks"], icon: "fas fa-book")
+             .AddItem(
+            new ApplicationMenuItem(
+                AddressBookMenus.Contacts,
+                l["Menu:Contacts"],
+                url: "/contacts",
+                icon: "fa fa-file-alt",
+                requiredPermissionName: AddressBookPermissions.Contacts.Default))
+               .AddItem(
             new ApplicationMenuItem(
                 AddressBookMenus.EmailAddressBooks,
                 l["Menu:EmailAddressBooks"],
                 url: "/email-address-books",
                 icon: "fa fa-file-alt",
-                requiredPermissionName: AddressBookPermissions.EmailAddressBooks.Default)
-        );
+                requiredPermissionName: AddressBookPermissions.EmailAddressBooks.Default))
+               );
 
         return Task.CompletedTask;
     }

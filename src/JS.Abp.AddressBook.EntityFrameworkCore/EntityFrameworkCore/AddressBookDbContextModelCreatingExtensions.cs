@@ -1,4 +1,5 @@
-﻿using JS.Abp.AddressBook.EmailAddressBooks;
+﻿using JS.Abp.AddressBook.Contacts;
+using JS.Abp.AddressBook.EmailAddressBooks;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -39,6 +40,19 @@ public static class AddressBookDbContextModelCreatingExtensions
             b.Property(x => x.UserName).HasColumnName(nameof(EmailAddressBook.UserName)).HasMaxLength(EmailAddressBookConsts.UserNameMaxLength);
             b.Property(x => x.EmailAddress).HasColumnName(nameof(EmailAddressBook.EmailAddress)).HasMaxLength(EmailAddressBookConsts.EmailAddressMaxLength);
             b.Property(x => x.Description).HasColumnName(nameof(EmailAddressBook.Description)).HasMaxLength(EmailAddressBookConsts.DescriptionMaxLength);
+        });
+        builder.Entity<Contact>(b =>
+        {
+            b.ToTable(AddressBookDbProperties.DbTablePrefix + "Contacts", AddressBookDbProperties.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.UserId).HasColumnName(nameof(Contact.UserId)).IsRequired().HasMaxLength(ContactConsts.UserIdMaxLength);
+            b.Property(x => x.UserName).HasColumnName(nameof(Contact.UserName)).HasMaxLength(ContactConsts.UserNameMaxLength);
+            b.Property(x => x.PhoneNumber).HasColumnName(nameof(Contact.PhoneNumber)).HasMaxLength(ContactConsts.PhoneNumberMaxLength);
+            b.Property(x => x.Telephone).HasColumnName(nameof(Contact.Telephone)).HasMaxLength(ContactConsts.TelephoneMaxLength);
+            b.Property(x => x.Address).HasColumnName(nameof(Contact.Address)).HasMaxLength(ContactConsts.AddressMaxLength);
+            b.Property(x => x.Age).HasColumnName(nameof(Contact.Age));
+            b.Property(x => x.Birthday).HasColumnName(nameof(Contact.Birthday));
+            b.Property(x => x.Description).HasColumnName(nameof(Contact.Description));
         });
     }
 }

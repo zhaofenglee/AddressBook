@@ -23,6 +23,20 @@
     "Permission:AddressBook": "AddressBook",
     "Permission:Create": "Create",
     "Permission:Edit": "Edit",
-    "Permission:Delete": "Delete"
+    "Permission:Delete": "Delete",
+    "Permission:Contacts": "Contacts",
+    "PhoneNumber": "Phone Number",
+    "Telephone": "Telephone",
+    "Address": "Address",
+    "Age": "Age",
+    "Birthday": "Birthday",
+    "MinAge": "Min Age",
+    "MinBirthday": "Min Birthday",
+    "MaxAge": "Max Age",
+    "MaxBirthday": "Max Birthday",
+    "Contacts": "Contacts",
+    "NewContact": "New Contact",
+    "Menu:Contacts": "Contacts",
+    "Menu:AddressBooks": "AddressBooks"
   }
 }

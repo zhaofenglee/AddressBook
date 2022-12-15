@@ -23,6 +23,14 @@
     "Permission:AddressBook": "地址簿",
     "Permission:Create": "创建",
     "Permission:Edit": "编辑",
-    "Permission:Delete": "删除"
+    "Permission:Delete": "删除",
+    "Menu:AddressBooks": "地址簿",
+    "Menu:Contacts": "联系人",
+    "NewContact": "新建联系人",
+    "PhoneNumber": "手机号码",
+    "Telephone": "电话号码",
+    "Address": "地址",
+    "Age": "年龄",
+    "Birthday": "生日"
   }
 }
