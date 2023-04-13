@@ -31,6 +31,7 @@
     "Telephone": "电话号码",
     "Address": "地址",
     "Age": "年龄",
-    "Birthday": "生日"
+    "Birthday": "生日",
+    "Permission:Contacts": "联系人"
   }
 }
